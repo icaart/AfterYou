@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>After You</title>
+<meta name="description" content="Clips and figures for the paper After You: How Do Driving Agents Negotiate in a City Without Traffic Rules?">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#ffd23f">
+<link rel="preload" href="media/crossing.webp" as="image" fetchpriority="high">
+<link rel="preload" href="fonts/Archivo-normal-400-900.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+
+/* Layout: a road sign. Safety-yellow ground and black ink, as on warning signs and road-works boards; thick borders and hard
+   offset shadows; white cards wherever the method colours appear, so they stay legible. Every block starts at one left edge;
+   text runs about 65 characters wide, clips and charts run wider, the hero runs edge to edge. */
+:root {
+  --bg: #fff6d6; --sun: #ffd23f; --bg2: #ffffff; --bg3: #fff1b8; --line: #111111; --ink: #111111; --soft: #1d1d1d; --muted: #3a3a3a; --faint: #5a5a5a; --accent: #111111;
+  --sign: #006b3f;
+  --grad: #8c8c8c; --none: #d55e00; --pen: #cc79a7; --lag: #e69f00; --shared: #009e73; --mappo: #56b4e9; --mappol: #0072b2; --coord45: #111111;
+  --crash: #e8a08c; --other: #e9d39b;
+  --display: "Archivo", "Arial Black", "Helvetica Neue", sans-serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --label: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --col: 46rem; --wide: 76rem; --gut: max(16px, env(safe-area-inset-left, 0px));
+  --edge: 3px solid var(--ink); --drop: 7px 7px 0 var(--ink); --r: 8px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.68 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: var(--bg); }
+a { color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.wide { max-width: var(--wide); margin-inline: auto; }
+.col { max-width: var(--col); margin-left: max(0px, calc((100% - var(--wide)) / 2)); margin-right: 0; }
+.wide .col, section.wide > .col { margin-left: 0; }
+.bleed { width: 100vw; margin-left: calc(50% - 50vw); }
+.label { font: 600 0.8125rem/1.2 var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label.y { color: var(--accent); }
+p { margin: 0; text-wrap: pretty; }
+.prose { display: grid; gap: 1.05rem; }
+.lead { font-size: 1.25rem; line-height: 1.55; color: var(--ink); }
+.prose p:not(.lead) { color: var(--soft); }
+b, strong { font-weight: 650; color: var(--ink); }
+
+/* top */
+.top { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.1rem 0; }
+@media (max-width: 34rem) { .top span:last-child { display: none; } }
+header.hero { padding-block: clamp(2.2rem, 7vw, 4.5rem) 0; display: grid; gap: 1.2rem; }
+h1 { margin: 0; font: 800 clamp(4.6rem, 17vw, 12.5rem)/0.8 var(--display); letter-spacing: 0.005em; text-transform: uppercase;
+  transform: scaleY(1.12); transform-origin: bottom left; padding-top: 0.12em; }
+.sub { margin: 0; max-width: 30ch; font: 400 clamp(1.25rem, 2.8vw, 1.75rem)/1.25 var(--body); color: var(--muted); text-wrap: balance; }
+.sub em { font-style: normal; color: var(--ink); }
+/* give-way line: the road marking that means "after you" */
+.teeth { display: flex; gap: 9px; }
+.teeth i { width: 15px; height: 17px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 50% 100%); flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .teeth i { animation: tooth 900ms cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--i) * 45ms + 150ms); }
+  @keyframes tooth { from { transform: translateY(-6px); opacity: 0.25; } }
+}
+.hero-media { position: relative; margin-top: clamp(1.6rem, 4vw, 2.6rem); }
+.hero-media .frame { aspect-ratio: 16 / 9; max-height: 82vh; width: 100%; border-radius: 0; }
+.chip { position: absolute; display: inline-flex; align-items: center; gap: 0.45rem; font: 600 0.8125rem/1 var(--label); letter-spacing: 0.06em;
+  text-transform: uppercase; color: #f1eee6; background: rgba(14, 17, 20, 0.74); padding: 0.45rem 0.6rem; border-radius: 3px; }
+.chip .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c, var(--ink)); }
+.chip.bl { left: 0.6rem; bottom: 0.7rem; }
+.hero-chip { left: max(calc((100vw - var(--wide)) / 2), var(--gut)) !important; bottom: 1rem; }
+.hero-cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 2rem; padding-top: 0.8rem; font-size: 0.9375rem; color: var(--muted); }
+@media (max-width: 34rem) { .chip { font-size: 0.6875rem; } }
+
+/* findings */
+.findings { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(2.5rem, 6vw, 4rem); }
+.find { display: grid; gap: 0.55rem; align-content: start; padding: 0.2rem 1.4rem 0.6rem; position: relative; min-width: 0; text-decoration: none; color: inherit; }
+.find:first-child { padding-left: 0; }
+.find + .find::before { content: ""; position: absolute; left: 0; top: 0.4rem; bottom: 0.4rem; width: 3px;
+  background: repeating-linear-gradient(to bottom, var(--accent) 0 18px, transparent 18px 72px); opacity: 0.85; }
+.find .num { font: 800 clamp(2.9rem, 5.2vw, 4.4rem)/0.9 var(--display); letter-spacing: 0.005em; white-space: nowrap; transition: color 150ms; }
+.find .num small { font-size: 0.55em; color: var(--muted); font-weight: 600; }
+.find .num .arr { color: var(--accent); font-weight: 600; padding: 0 0.08em; }
+.find p { font-size: 0.96875rem; line-height: 1.5; color: var(--soft); }
+.find .go { font: 600 0.8125rem/1 var(--label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.find:hover .num { color: var(--accent); }
+@media (max-width: 60rem) { .findings { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; } .find:nth-child(3) { padding-left: 0; } .find:nth-child(3)::before { display: none; } }
+@media (max-width: 34rem) { .findings { grid-template-columns: 1fr; } .find { padding-left: 0; } .find + .find::before { display: none; } .find + .find { padding-top: 1.6rem; border-top: 1px solid var(--line); } }
+
+/* sections, divided by a dashed lane line with dashes and gaps in the 1:3 ratio of a road's lane line */
+section { padding-block: clamp(3.5rem, 8vw, 6rem) 0; display: grid; gap: 1.75rem; }
+.lane { height: 3px; margin-top: clamp(3.5rem, 8vw, 6rem); background: repeating-linear-gradient(90deg, var(--ink) 0 40px, transparent 40px 160px); opacity: 0.16; }
+h2 { margin: 0; font: 600 clamp(2.1rem, 4.6vw, 3.35rem)/1.02 var(--display); letter-spacing: 0.002em; text-wrap: balance; }
+h2 .label { display: block; margin-bottom: 0.7rem; font-size: 0.875rem; }
+h3 { margin: 0; font: 600 1.35rem/1.15 var(--display); letter-spacing: 0.01em; }
+
+/* media */
+figure { margin: 0; display: grid; gap: 0.75rem; min-width: 0; }
+.frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: var(--bg2) center / cover no-repeat; border-radius: 4px; overflow: hidden; }
+.frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: transparent; }
+figcaption { font-size: 0.9375rem; line-height: 1.55; color: var(--muted); max-width: var(--col); }
+figcaption b { color: var(--ink); font-weight: 600; }
+
+/* pipeline drawn as a road with four stops */
+.route { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; padding-top: 2.4rem; }
+.route::before { content: ""; position: absolute; left: 0.55rem; right: 0; top: 0.55rem; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 22px, transparent 22px 44px); }
+.stop { position: relative; display: grid; gap: 0.5rem; align-content: start; padding-right: 1.5rem; min-width: 0; }
+.stop::before { content: ""; position: absolute; left: 0; top: -2.4rem; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--bg); border: 3px solid var(--ink); }
+.stop p, .stop li { font-size: 0.9375rem; line-height: 1.5; color: var(--soft); }
+.stop ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.15rem; }
+.ladder { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 0.3rem; max-width: 12rem; }
+.ladder span { height: 6px; background: var(--ink); opacity: calc(0.12 + var(--k) * 0.12); border-radius: 1px; }
+@media (max-width: 52rem) {
+  .route { grid-template-columns: 1fr; padding-top: 0; padding-left: 2.2rem; gap: 1.6rem; }
+  .route::before { left: 0.55rem; top: 0.5rem; bottom: 0; right: auto; width: 3px; height: auto; background: repeating-linear-gradient(180deg, var(--accent) 0 22px, transparent 22px 44px); }
+  .stop::before { left: -2.2rem; top: 0.1rem; }
+}
+
+/* network diagrams */
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+@media (max-width: 52rem) { .two { grid-template-columns: 1fr; } .arch > div { max-width: 32rem; } }
+.arch svg { display: block; width: 100%; height: auto; font-family: var(--label); }
+.arch .car { fill: var(--ink); } .arch .glass { fill: var(--bg); opacity: 0.85; }
+.arch .net { fill: var(--bg3); stroke: var(--ink); stroke-width: 1.4; } .arch .net.strong { stroke: var(--accent); stroke-width: 2; }
+.arch .net.dashed { stroke-dasharray: 4 3; stroke: var(--muted); fill: none; }
+.arch .lam { fill: none; stroke: var(--lag); stroke-width: 1.6; }
+.arch .wire { fill: none; stroke: var(--faint); stroke-width: 1.2; } .arch .wire.dash { stroke-dasharray: 2 3; }
+.arch text { fill: var(--ink); } .arch .sym { font: italic 600 15px var(--body); } .arch .tiny { font-size: 12px; font-weight: 600; }
+.arch .m, .arch .sub { fill: var(--muted); } .arch .hd { font: 600 17px var(--display); letter-spacing: 0.02em; } .arch .sub { font-size: 12.5px; }
+@media (max-width: 34rem) { .arch .sub { display: none; } .arch .hd { font-size: 22px; } .arch .tiny { font-size: 15px; } .arch .sym { font-size: 19px; } }
+
+/* method table */
+.scroll { overflow-x: auto; max-width: 100%; }
+table.matrix { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: 0.9375rem; }
+.matrix th, .matrix td { padding: 0.55rem 0.7rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--faint); }
+.matrix thead th { font: 600 0.8125rem/1.2 var(--label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--ink); }
+.matrix tbody th { font: 600 1.0625rem/1.2 var(--display); letter-spacing: 0.02em; white-space: nowrap; color: var(--ink); }
+.matrix .grp th { font: 600 0.75rem/1 var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); padding-top: 1.3rem; border-bottom: 0; }
+.matrix tbody tr:not(.grp):hover { background: var(--bg2); }
+.matrix td.yes { color: var(--ink); }
+.sw { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; margin-right: 0.55rem; vertical-align: -0.02rem; border: 2px solid var(--c); background: var(--c); }
+.sw.half { background: linear-gradient(135deg, var(--c) 50%, transparent 50%); } .sw.none { background: transparent; } .sw.sq { border-radius: 2px; }
+
+/* scenes */
+.atlas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.4rem 1.4rem; }
+.tile { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
+.tile .frame { cursor: pointer; transition: transform 300ms ease, box-shadow 300ms ease; }
+.tile .frame::after { content: ""; position: absolute; right: 0.75rem; bottom: 0.75rem; width: 0; height: 0; border-style: solid; border-width: 8px 0 8px 13px;
+  border-color: transparent transparent transparent var(--ink); opacity: 0.9; transition: opacity 200ms; filter: drop-shadow(0 1px 3px rgba(0,0,0,.7)); }
+.tile.playing .frame::after { opacity: 0; }
+@media (hover: hover) { .tile:hover .frame { transform: translateY(-3px); box-shadow: 0 16px 32px -14px rgba(0, 0, 0, 0.8); } }
+.tile p { font-size: 0.9375rem; line-height: 1.5; color: var(--muted); }
+@media (max-width: 60rem) { .atlas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 34rem) { .atlas { grid-template-columns: 1fr; } }
+
+/* sensor view controls */
+.controls { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.8rem 1.5rem; align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; background: var(--bg2); padding: 0.25rem; border-radius: 6px; border: 1px solid var(--line); }
+.seg button { font: 600 0.875rem/1 var(--label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: none; border: 0;
+  padding: 0.6rem 0.8rem; border-radius: 4px; cursor: pointer; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg.y button[aria-pressed="true"] { background: var(--accent); }
+.lens-note { min-height: 3.1em; }
+
+/* observation bar */
+.obs { display: grid; gap: 0.4rem; }
+.obs .bar { display: flex; height: 1.7rem; gap: 3px; }
+.obs .bar span { background: var(--bg3); border-radius: 2px; }
+.obs .bar span.hi { background: var(--accent); } .obs .bar span.nb { background: var(--accent); opacity: 0.55; }
+.obs .keys { display: flex; gap: 3px; font: 500 0.8125rem/1.3 var(--label); color: var(--muted); }
+.obs .keys span { min-width: 0; overflow-wrap: anywhere; padding-top: 0.2rem; }
+.obs .keys span.hi { color: var(--ink); font-weight: 600; }
+@media (max-width: 34rem) { .obs .keys span:not(.hi) { visibility: hidden; } }
+
+/* four-up */
+.quad .tag { position: absolute; display: inline-flex; align-items: center; gap: 0.4rem; font: 600 0.8125rem/1 var(--label); letter-spacing: 0.06em;
+  text-transform: uppercase; color: #f1eee6; background: rgba(14, 17, 20, 0.76); padding: 0.4rem 0.55rem; border-radius: 3px; }
+.quad .tag::before { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c); }
+.quad .tag:nth-of-type(1) { left: 0.6rem; top: 0.6rem; } .quad .tag:nth-of-type(2) { left: calc(50% + 0.6rem); top: 0.6rem; }
+.quad .tag:nth-of-type(3) { left: 0.6rem; top: calc(50% + 0.6rem); } .quad .tag:nth-of-type(4) { left: calc(50% + 0.6rem); top: calc(50% + 0.6rem); }
+@media (max-width: 34rem) { .quad .tag { font-size: 0.625rem; padding: 0.25rem 0.35rem; } }
+
+/* big inline statistic */
+.stat { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.4rem 1.6rem; align-items: center; padding: 1.4rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stat .num { font: 800 clamp(3.6rem, 9vw, 6.5rem)/0.85 var(--display); color: var(--accent); white-space: nowrap; }
+.stat .num small { font-size: 0.45em; color: var(--muted); font-weight: 600; }
+.stat p { font-size: 1.0625rem; color: var(--soft); }
+@media (max-width: 34rem) { .stat { grid-template-columns: 1fr; } }
+
+/* charts */
+.chart { width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--ink); font: 500 13px var(--label); }
+.chart text.m { fill: var(--muted); } .chart text.b { font-weight: 600; } .chart text.big { font: 800 22px var(--display); }
+.chart text.h { font: 600 15px var(--display); letter-spacing: 0.04em; text-transform: uppercase; fill: var(--muted); }
+.chart .gridl { stroke: var(--line); stroke-width: 1; }
+.chart .dim { opacity: 0.22; transition: opacity 150ms; }
+.key { display: flex; flex-wrap: wrap; gap: 0.35rem 1.2rem; font: 500 0.875rem/1.3 var(--label); color: var(--muted); }
+.key span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.key span::before { content: ""; width: 0.8rem; height: 0.8rem; border-radius: 2px; background: var(--c); }
+.key span.hatch::before { background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 5px); outline: 1px solid var(--ink); }
+.tip { position: fixed; z-index: 5; pointer-events: none; background: var(--ink); color: var(--bg); font: 600 0.8125rem/1.35 var(--label);
+  padding: 0.4rem 0.6rem; border-radius: 3px; max-width: 17rem; box-shadow: 0 8px 22px rgba(0,0,0,.45); }
+.turnfig { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 1.8rem; align-items: start; }
+.turnfig svg.sch { width: 100%; height: auto; }
+@media (max-width: 40rem) { .turnfig { grid-template-columns: 1fr; } .turnfig svg.sch { max-width: 12rem; } }
+
+footer { margin-top: clamp(3.5rem, 8vw, 6rem); padding-block: 2.2rem 4rem; border-top: 1px solid var(--line); display: grid; gap: 0.8rem; font-size: 0.875rem; }
+footer p { color: var(--faint); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .tile .frame { transition: none; } }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 400 900; font-stretch: 100% 125%; font-display: swap; src: url(fonts/Archivo-normal-400-900.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/IBMPlexMono-normal-500.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/IBMPlexMono-normal-600.woff2) format("woff2"); }
+
+body { font-stretch: 100%; }
+h1 { font-weight: 900; font-stretch: 125%; transform: none; letter-spacing: -0.02em; font-size: clamp(3.8rem, 13vw, 10.5rem); line-height: 0.88; }
+h2 { font-weight: 850; font-stretch: 112%; letter-spacing: -0.015em; font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1.02; }
+h3 { font-weight: 800; font-stretch: 110%; }
+.label.y, h2 .label { display: block; width: fit-content; background: var(--ink); color: var(--bg); padding: 0.35rem 0.55rem; letter-spacing: 0.04em; }
+.frame { border: 3px solid var(--ink); box-shadow: 7px 7px 0 var(--ink); border-radius: 8px; }
+.hero-media .frame { border-radius: 0; border-left: 0; border-right: 0; box-shadow: none; }
+.find { background: #fff; border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); border-radius: 8px; padding: 1.1rem 1.1rem 1rem !important; }
+.findings { gap: 1.2rem; }
+.find::before { display: none; }
+.find .num .arr, .find .go { color: var(--ink); }
+.find:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); } .find:hover .num { color: var(--ink); }
+figure:has(> .chart), figure:has(.turnfig), .stat { background: #fff; border: 3px solid var(--ink); box-shadow: 7px 7px 0 var(--ink); border-radius: 8px; padding: 1.3rem; }
+.stat .num { color: var(--ink); }
+.lane { opacity: 1; height: 4px; background: repeating-linear-gradient(90deg, var(--ink) 0 40px, transparent 40px 160px); }
+.seg { border: 3px solid var(--ink); background: #fff; box-shadow: 4px 4px 0 var(--ink); }
+.seg.y button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.route::before { background: repeating-linear-gradient(90deg, var(--ink) 0 22px, transparent 22px 44px); }
+.matrix .grp th { color: var(--ink); }
+.scroll:has(.matrix) { background: #fff; border: 3px solid var(--ink); box-shadow: 7px 7px 0 var(--ink); border-radius: 8px; }
+.obs .bar span.hi, .obs .bar span.nb { background: var(--ink); }
+.obs .bar span { background: #fff; outline: 2px solid var(--ink); }
+.tip { background: var(--ink); color: #fff; }
+.arch .net { fill: #fff; } .arch .net.strong { stroke: var(--ink); stroke-width: 3; }
+.arch .glass { fill: var(--bg); }
+.teeth i { background: var(--ink); }
+
+
+/* hero: title on the left, a green guide sign listing the sections like exits on the right */
+header.hero { grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem); align-items: end; column-gap: 3rem; }
+.hero-l { display: grid; gap: 1.2rem; min-width: 0; }
+.guide { background: var(--sign); color: #fff; border-radius: 12px; border: var(--edge); box-shadow: var(--drop); outline: 3px solid #fff; outline-offset: -9px;
+  padding: 1rem 1.1rem 0.8rem; display: grid; }
+.guide-top { font: 600 0.75rem/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; padding-bottom: 0.55rem; border-bottom: 2px solid rgba(255,255,255,.55); margin-bottom: 0.3rem; }
+.guide a { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; align-items: baseline; column-gap: 0.4rem; color: #fff; text-decoration: none; padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,.22); }
+.guide a:last-child { border-bottom: 0; }
+.guide a::after { content: "↗"; font: 700 1rem/1 var(--body); transition: transform 150ms; }
+.guide a:hover::after, .guide a:focus-visible::after { transform: translate(2px, -2px); }
+.guide b { grid-column: 2; font: 750 1.15rem/1.1 var(--display); font-stretch: 105%; letter-spacing: 0.005em; }
+.guide i { grid-column: 2; font: 500 0.78rem/1.3 var(--label); font-style: normal; opacity: 0.8; }
+.guide .ex { grid-column: 1; grid-row: 1; justify-self: start; font: 600 0.75rem/1 var(--label); background: #fff; color: var(--sign); padding: 0.22rem 0.32rem; border-radius: 3px; }
+.guide a:not(:has(.ex)) b, .guide a:not(:has(.ex)) i { grid-column: 1 / 3; }
+.guide a:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+@media (max-width: 60rem) { header.hero { grid-template-columns: 1fr; row-gap: 2rem; } .guide { max-width: 26rem; } }
+figure:has(.arch) { background: #fff; border: var(--edge); box-shadow: var(--drop); border-radius: var(--r); padding: 1.3rem; }
+footer.band { margin-top: clamp(3.5rem, 8vw, 6rem); padding-block: 2.4rem 3.4rem; border-top: 0; background: var(--ink); width: 100vw; margin-left: calc(50% - 50vw);
+  padding-left: max(var(--gut), calc((100vw - var(--wide)) / 2)); padding-right: max(var(--gut), calc((100vw - var(--wide)) / 2)); }
+footer.band p { color: #d8d4c6; max-width: 62rem; }
+footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--display); }
+.find .num { font-size: clamp(2.3rem, 3.9vw, 3.5rem); font-weight: 900; font-stretch: 105%; letter-spacing: -0.02em; }
+.find .num .arr { padding: 0 0.04em; }
+@media (max-width: 34rem) { figure:has(> .chart), figure:has(.turnfig), figure:has(.arch), .stat { padding: 0.9rem; box-shadow: 5px 5px 0 var(--ink); } }
+/* full warning-sign yellow only for the opening; the long read sits on a paler sign yellow */
+.opening { background: var(--sun); box-shadow: 0 0 0 100vmax var(--sun); clip-path: inset(0 -100vmax); padding-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+/* the one gradient on the page: a short fade from the opening's yellow into the reading ground, in place of the first lane line */
+.opening + .lane { height: clamp(3rem, 7vw, 5rem); margin-top: 0; opacity: 1; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); background: linear-gradient(var(--sun), var(--bg)); }
+.opening .label.y, .opening h2 .label { color: var(--sun); }
+</style>
+</head>
+<body>
+
+<div class="opening">
+<div class="top wide"><span class="label">Companion page · ICAART 2027</span><span class="label">Anonymous submission</span></div>
+
+<header class="hero wide">
+  <div class="hero-l">
+  <h1>After you</h1>
+    <div class="teeth" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div>
+    <p class="sub">How do driving agents <em>negotiate</em> in a city without traffic rules?</p>
+  </div>
+  <nav class="guide" aria-label="Sections of this page">
+    <span class="guide-top">Next exits</span>
+    <a href="#scenes"><b>Scenes</b><i>seven places to meet</i></a>
+    <a href="#senses"><b>Sensors</b><i>what each car receives</i></a>
+    <a href="#conflicts"><span class="ex">5.1</span><b>Conflicts</b></a>
+    <a href="#priority"><span class="ex">5.2</span><b>Right of way</b></a>
+    <a href="#turns"><span class="ex">5.3</span><b>Turns</b></a>
+    <a href="#budgets"><span class="ex">5.4</span><b>Budgets</b></a>
+    <a href="#city"><span class="ex">5.5</span><b>Denser traffic</b></a>
+  </nav>
+</header>
+
+<figure class="hero-media">
+  <div class="bleed">
+    <div class="frame" style="background-image:url(media/crossing.webp)"><video data-src="media/crossing.mp4" poster="media/crossing.webp" muted loop playsinline preload="auto" autoplay
+      aria-label="Eight cars take turns through an unsignalised four-way crossing"></video>
+      <span class="chip bl hero-chip" style="--c:var(--mappol)"><span class="dot"></span>MAPPO-L · 8 cars · recorded test · real time</span></div>
+  </div>
+  <figcaption class="hero-cap wide"><span><b>A four-way crossing with no lights, no signs and no priority rule.</b> A car that arrives starts a new trip from a random arm.</span><span>The triangles under the title are a give-way line, the road marking for the rule these cars never got.</span></figcaption>
+</figure>
+
+<div class="findings wide">
+  <a class="find" href="#conflicts"><span class="num"><span data-end="grad.clean"></span><span class="arr">→</span><span data-end="mappol.clean"></span><small>%</small></span>
+    <p>of conflicts end cleanly, from the school graduate to MAPPO-L. Training changes how a meeting ends more than who goes first.</p><span class="go">How conflicts end</span></a>
+  <a class="find" href="#priority"><span class="num">1<small> of 40</small></span>
+    <p>right-of-way cells differ from the graduate: MAPPO-L lets through traffic go first at the T-junction. The right-hand rule never appears.</p><span class="go">Who goes first</span></a>
+  <a class="find" href="#budgets"><span class="num"><span data-fz="frozen"></span><small> of <span data-fz="runs"></span></small></span>
+    <p>runs of independent cars under a per-step safety budget froze. Standing still is how the budget was met.</p><span class="go">Sharing and budgets</span></a>
+  <a class="find" href="#city"><span class="num" data-do1="shared>none"></span>
+    <p>traffic levels, from one car to the densest each map holds, in which Shared PPO arrives more often than Direct PPO.</p><span class="go">Denser traffic</span></a>
+</div>
+</div>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="col prose">
+  <p class="lead">We kept lanes, right-hand driving and speed limits in the MetaDrive simulator and took out every rule that gives a car priority at a junction.</p>
+  <p>One car first learns to drive alone in a driving school. We call the result the school graduate. Its policy is copied into every car
+    of a fleet, and the fleet keeps learning together on one scene. The paper asks what these fleets come to agree on and how they settle each
+    encounter. This page shows them doing it.</p>
+  <p>Each clip replays positions recorded in a test the paper analyses (the full city is the one exception: a training episode). We only added
+    the camera and the 3D models. Every number on the page comes from the paper's analysis outputs.</p>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="setup">
+  <div class="col prose">
+    <h2><span class="label y">Setup</span>From one car to a fleet</h2>
+    <p class="lead">All ten methods use one PPO trainer and start from the same driver, so what differs is how they learn in traffic.</p>
+  </div>
+  <figure>
+    <div class="route" role="list">
+      <div class="stop" role="listitem"><span class="label y">Driving school</span><h3>One car learns alone</h3>
+        <p>Seven stages, from pulling out of a kerb space to whole trips through a city with the lights off. It never meets another car.</p>
+        <div class="ladder" aria-hidden="true"><span style="--k:1"></span><span style="--k:2"></span><span style="--k:3"></span><span style="--k:4"></span><span style="--k:5"></span><span style="--k:6"></span><span style="--k:7"></span></div></div>
+      <div class="stop" role="listitem"><span class="label y">Fleet training</span><h3>A fleet learns together</h3>
+        <p>The graduate is copied into every network. 8 cars train on one scene (16 in the street grid) for 30M agent-steps, with one of 10 methods and 5 seeds each.</p></div>
+      <div class="stop" role="listitem"><span class="label y">Tests</span><h3>Each fleet drives its scene</h3>
+        <p>Policy mean, no exploration noise, alone and in traffic. The graduate is tested the same way.</p></div>
+      <div class="stop" role="listitem"><span class="label y">Measures</span><h3>Read against the graduate</h3>
+        <ul><li>how each trip ends</li><li>how each conflict ends</li><li>who passes first</li><li>the path through a turn</li></ul></div>
+    </div>
+    <figcaption>The reward pays progress along the route and charges for time. It has no collision term. A separate safety cost (contact, leaving the
+      road, near misses by time to collision and post-encroachment time) is used only by the penalty and budget methods.</figcaption>
+  </figure>
+  <figure>
+    <div class="two arch"><div><svg viewBox="0 0 520 250" role="img" aria-labelledby="ind-t"><title id="ind-t">Independent networks: each car has its own policy</title><line x1="40" y1="196" x2="40" y2="122" class="wire"/><rect x="23" y="96" width="34" height="26" rx="3" class="net"/><text x="40" y="114" text-anchor="middle" class="sym">π</text><rect x="28" y="56" width="24" height="18" rx="9" class="lam"/><text x="40" y="69" text-anchor="middle" class="tiny">λ</text><line x1="40" y1="74" x2="40" y2="96" class="wire dash"/><g transform="translate(40,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="100" y1="196" x2="100" y2="122" class="wire"/><rect x="83" y="96" width="34" height="26" rx="3" class="net"/><text x="100" y="114" text-anchor="middle" class="sym">π</text><rect x="88" y="56" width="24" height="18" rx="9" class="lam"/><text x="100" y="69" text-anchor="middle" class="tiny">λ</text><line x1="100" y1="74" x2="100" y2="96" class="wire dash"/><g transform="translate(100,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="160" y1="196" x2="160" y2="122" class="wire"/><rect x="143" y="96" width="34" height="26" rx="3" class="net"/><text x="160" y="114" text-anchor="middle" class="sym">π</text><rect x="148" y="56" width="24" height="18" rx="9" class="lam"/><text x="160" y="69" text-anchor="middle" class="tiny">λ</text><line x1="160" y1="74" x2="160" y2="96" class="wire dash"/><g transform="translate(160,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="220" y1="196" x2="220" y2="122" class="wire"/><rect x="203" y="96" width="34" height="26" rx="3" class="net"/><text x="220" y="114" text-anchor="middle" class="sym">π</text><rect x="208" y="56" width="24" height="18" rx="9" class="lam"/><text x="220" y="69" text-anchor="middle" class="tiny">λ</text><line x1="220" y1="74" x2="220" y2="96" class="wire dash"/><g transform="translate(220,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="280" y1="196" x2="280" y2="122" class="wire"/><rect x="263" y="96" width="34" height="26" rx="3" class="net"/><text x="280" y="114" text-anchor="middle" class="sym">π</text><rect x="268" y="56" width="24" height="18" rx="9" class="lam"/><text x="280" y="69" text-anchor="middle" class="tiny">λ</text><line x1="280" y1="74" x2="280" y2="96" class="wire dash"/><g transform="translate(280,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="340" y1="196" x2="340" y2="122" class="wire"/><rect x="323" y="96" width="34" height="26" rx="3" class="net"/><text x="340" y="114" text-anchor="middle" class="sym">π</text><rect x="328" y="56" width="24" height="18" rx="9" class="lam"/><text x="340" y="69" text-anchor="middle" class="tiny">λ</text><line x1="340" y1="74" x2="340" y2="96" class="wire dash"/><g transform="translate(340,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="400" y1="196" x2="400" y2="122" class="wire"/><rect x="383" y="96" width="34" height="26" rx="3" class="net"/><text x="400" y="114" text-anchor="middle" class="sym">π</text><rect x="388" y="56" width="24" height="18" rx="9" class="lam"/><text x="400" y="69" text-anchor="middle" class="tiny">λ</text><line x1="400" y1="74" x2="400" y2="96" class="wire dash"/><g transform="translate(400,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><line x1="460" y1="196" x2="460" y2="122" class="wire"/><rect x="443" y="96" width="34" height="26" rx="3" class="net"/><text x="460" y="114" text-anchor="middle" class="sym">π</text><rect x="448" y="56" width="24" height="18" rx="9" class="lam"/><text x="460" y="69" text-anchor="middle" class="tiny">λ</text><line x1="460" y1="74" x2="460" y2="96" class="wire dash"/><g transform="translate(460,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><text x="10" y="24" class="hd">Every car has its own network</text><text x="10" y="42" class="sub">trained on its own car's samples; budget methods add one multiplier λ per car</text></svg></div><div><svg viewBox="0 0 520 250" role="img" aria-labelledby="sh-t"><title id="sh-t">Shared network: one policy drives every car</title><path d="M40 196 C 40 160, 260 150, 260 132" class="wire"/><path d="M100 196 C 100 160, 260 150, 260 132" class="wire"/><path d="M160 196 C 160 160, 260 150, 260 132" class="wire"/><path d="M220 196 C 220 160, 260 150, 260 132" class="wire"/><path d="M280 196 C 280 160, 260 150, 260 132" class="wire"/><path d="M340 196 C 340 160, 260 150, 260 132" class="wire"/><path d="M400 196 C 400 160, 260 150, 260 132" class="wire"/><path d="M460 196 C 460 160, 260 150, 260 132" class="wire"/><rect x="170" y="98" width="180" height="34" rx="3" class="net strong"/><text x="260" y="120" text-anchor="middle" class="sym">π, shared</text><rect x="372" y="52" width="136" height="44" rx="3" class="net dashed"/><text x="440" y="70" text-anchor="middle" class="tiny">central critic</text><text x="440" y="86" text-anchor="middle" class="tiny m">MAPPO, MAPPO-L</text><line x1="350" y1="108" x2="372" y2="86" class="wire dash"/><g transform="translate(40,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(100,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(160,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(220,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(280,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(340,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(400,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><g transform="translate(460,212)"><rect x="-8" y="-14" width="16" height="28" rx="4" class="car"/><rect x="-5.5" y="-8" width="11" height="6" rx="1.5" class="glass"/></g><text x="10" y="24" class="hd">All cars share one network</text><text x="10" y="42" class="sub">it learns from every car; its actor gets no car identifier</text></svg></div></div>
+    <figcaption>The two families. The four shared methods differ in the critic, the cost and the reward: MAPPO's and MAPPO-L's critics
+      also see the mean observation of the other cars in the group, and the CoPO-style baseline mixes each car's reward with the others'
+      mean. MAPPO-L keeps one multiplier per car slot, as PPO-Lag does.</figcaption>
+  </figure>
+  <figure>
+    <div class="scroll">
+      <table class="matrix">
+        <thead><tr><th scope="col">Method</th><th scope="col">Network</th><th scope="col">Critic</th><th scope="col">Safety cost</th><th scope="col">Reward</th></tr></thead>
+        <tbody>
+          <tr class="grp"><th colspan="5" scope="colgroup">Every car has its own network</th></tr>
+          <tr><th scope="row"><i class="sw sq" style="--c:var(--none)"></i>Direct PPO</th><td>independent</td><td>local</td><td>none</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw sq" style="--c:var(--pen)"></i>Fixed penalty 1</th><td>independent</td><td>local</td><td class="yes">fixed weight 1</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw sq none" style="--c:var(--pen)"></i>Fixed penalty 4</th><td>independent</td><td>local</td><td class="yes">fixed weight 4</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw sq" style="--c:var(--lag)"></i>PPO-Lag 1/2</th><td>independent</td><td>local</td><td class="yes">budget, learned weight</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw sq half" style="--c:var(--lag)"></i>PPO-Lag 1/4</th><td>independent</td><td>local</td><td class="yes">tighter budget</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw sq none" style="--c:var(--lag)"></i>PPO-Lag 1/10</th><td>independent</td><td>local</td><td class="yes">tightest budget</td><td>own</td></tr>
+          <tr class="grp"><th colspan="5" scope="colgroup">All cars share one network</th></tr>
+          <tr><th scope="row"><i class="sw" style="--c:var(--shared)"></i>Shared PPO</th><td class="yes">shared</td><td>local</td><td>none</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw" style="--c:var(--mappo)"></i>MAPPO</th><td class="yes">shared</td><td class="yes">central</td><td>none</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw" style="--c:var(--mappol)"></i>MAPPO-L</th><td class="yes">shared</td><td class="yes">central</td><td class="yes">budget 1/2, learned weight</td><td>own</td></tr>
+          <tr><th scope="row"><i class="sw" style="--c:var(--coord45)"></i>CoPO-style</th><td class="yes">shared</td><td>local</td><td>none</td><td class="yes">mixed with the others' mean</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figcaption>Bright cells mark where a method departs from Direct PPO. Each method keeps one colour across the page, as in the paper. Budgets are 1/2,
+      1/4 and 1/10 of a reference cost rate per car-step. The CoPO-style baseline fixes the mixing angle at 45°; it is not the original CoPO.</figcaption>
+  </figure>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="scenes">
+  <div class="col prose">
+    <h2><span class="label y">Scenes</span>Six more scenes</h2>
+    <p class="lead">Each fleet trains and is tested on one scene, most of them built around one kind of conflict.</p>
+    <p>Every clip shows MAPPO-L. Of its five fleets we picked the one whose test arrival is closest to the method's mean at that scene.
+      Hover over a clip to play it. On a phone, clips play as you scroll to them.</p>
+  </div>
+  <div class="atlas">
+    <figure class="tile"><div class="frame" style="background-image:url(media/tjunction.webp)"><video data-src="media/tjunction.mp4" poster="media/tjunction.webp" muted loop playsinline preload="none" aria-label="T-junction clip"></video></div>
+      <h3>T-junction</h3><p>Three arms at right angles. People give way to traffic on the through road.</p></figure>
+    <figure class="tile"><div class="frame" style="background-image:url(media/roundabout.webp)"><video data-src="media/roundabout.mp4" poster="media/roundabout.webp" muted loop playsinline preload="none" aria-label="Roundabout clip"></video></div>
+      <h3>Roundabout</h3><p>One lane, a 20 m radius, four arms. People give way to cars already on the ring.</p></figure>
+    <figure class="tile"><div class="frame" style="background-image:url(media/onramp.webp)"><video data-src="media/onramp.mp4" poster="media/onramp.webp" muted loop playsinline preload="none" aria-label="On-ramp clip"></video></div>
+      <h3>On-ramp</h3><p>Ramp cars join a highway along a 200 m acceleration lane.</p></figure>
+    <figure class="tile"><div class="frame" style="background-image:url(media/diamond.webp)"><video data-src="media/diamond.mp4" poster="media/diamond.webp" muted loop playsinline preload="none" aria-label="Diamond interchange clip"></video></div>
+      <h3>Diamond interchange</h3><p>A freeway on a bridge, joined to the street below by four ramps and two junctions.</p></figure>
+    <figure class="tile"><div class="frame" style="background-image:url(media/grid.webp)"><video data-src="media/grid.mp4" poster="media/grid.webp" muted loop playsinline preload="none" aria-label="Street grid clip"></video></div>
+      <h3>Street grid</h3><p>9 T-junctions, 2 crossings and 1 roundabout, shared by 16 cars.</p></figure>
+    <figure class="tile"><div class="frame" style="background-image:url(media/street.webp)"><video data-src="media/street.mp4" poster="media/street.webp" muted loop playsinline preload="none" aria-label="Straight road clip"></video></div>
+      <h3>Straight road</h3><p>A 320 m street. Cars pull out of kerb parking and park at least 40 m on. Almost no conflicts, so it is the control.</p></figure>
+  </div>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="senses">
+  <div class="col prose">
+    <h2><span class="label y">Perception</span>What a car senses</h2>
+    <p class="lead">A car never sees pixels. Each step it gets 175 numbers.</p>
+    <p>The sensor view rides with one car and draws those numbers over a darkened city. Switch views at any time: both show the same moment of the same test.</p>
+  </div>
+  <figure>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Sensor layer">
+        <button type="button" data-lens="cross" aria-pressed="true">Lidar</button>
+        <button type="button" data-lens="round" aria-pressed="false">Neighbours</button>
+        <button type="button" data-lens="t" aria-pressed="false">Risk</button>
+        <button type="button" data-lens="city" aria-pressed="false">City</button>
+      </div>
+      <div class="seg y" role="group" aria-label="View">
+        <button type="button" data-view="r" aria-pressed="false">Rendered</button>
+        <button type="button" data-view="s" aria-pressed="true">Sensor view</button>
+      </div>
+    </div>
+    <div class="frame" id="sense-frame" style="background-image:url(media/s_cross.webp)"><video id="sense" data-src="media/s_cross.mp4" poster="media/s_cross.webp" muted loop playsinline preload="none" aria-label="Sensor view clip"></video>
+      <span class="chip bl" id="sense-chip"></span></div>
+    <figcaption class="lens-note" id="lens-note"></figcaption>
+  </figure>
+  <figure class="col">
+    <div class="obs" aria-label="The 175 observation values by group, to scale">
+      <div class="bar"><span style="flex:19"></span><span class="hi" style="flex:72"></span><span style="flex:12"></span><span class="nb" style="flex:60"></span><span style="flex:12"></span></div>
+      <div class="keys"><span style="flex:19">own state, route</span><span class="hi" style="flex:72">72 lidar beams, 50 m</span><span style="flex:12">lane</span><span class="hi" style="flex:60">4 nearest cars</span><span style="flex:12">next junction</span></div>
+    </div>
+    <figcaption>The 175 values, to scale. For each of the 4 nearest cars within 50 m a car gets relative position and velocity, a time-to-collision
+      estimate, the approach direction, the planned turn and when that car will reach its next junction. The last value tells a car who will arrive
+      first. All readings carry Gaussian noise.</figcaption>
+  </figure>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="conflicts">
+  <div class="col prose">
+    <h2><span class="label y">Section 5.1</span>The graduate already took turns. Training made the turns cleaner.</h2>
+    <p class="lead">Two cars are in a conflict when their planned paths cross. The graduate already lets one pass after the other.</p>
+    <p>What training changes is the gap between them and how often the meeting ends with no contact and no near miss. The same crossing under four fleets:</p>
+  </div>
+  <figure>
+    <div class="frame quad" style="background-image:url(media/quad.webp)"><video data-src="media/quad.mp4" poster="media/quad.webp" muted loop playsinline preload="none"
+      aria-label="Four fleets at the same crossing: graduate, Direct PPO, PPO-Lag 1/2 and MAPPO-L"></video>
+      <span class="tag" style="--c:var(--grad)">School graduate</span><span class="tag" style="--c:var(--none)">Direct PPO</span><span class="tag" style="--c:var(--lag)">PPO-Lag 1/2</span><span class="tag" style="--c:var(--mappol)">MAPPO-L</span></div>
+    <figcaption><b>Four tests, 12 s each, real time.</b> Under PPO-Lag 1/2 cars wait on the approach arms for long stretches. The median gap between
+      the first car leaving the conflict point and the second reaching it: <span data-gap="grad"></span> s for the graduate,
+      <span data-gap="none"></span> s for Direct PPO, <span data-gap="mappol"></span> s for MAPPO-L, <span data-gap="d0.00158"></span> s for PPO-Lag 1/2.</figcaption>
+  </figure>
+  <figure>
+    <div class="chart" id="ch-end"></div>
+    <figcaption>Share of conflicts by ending, pooled over the six scenes with conflicts; the white line is the graduate. Clean: both pass with no
+      contact and no near miss (gap under 2 s, time to contact under 1.5 s). Hover a row for all five endings. PPO-Lag 1/4, 1/10 and fixed penalty 4
+      are left out, as in the paper, because their cars mostly stand.</figcaption>
+  </figure>
+  <div class="col prose">
+    <p>For six of the seven methods we classify, clean endings rise from the graduate's <span data-end="grad.clean"></span>% to 40–53%, and contact
+      falls from <span data-end="grad.collision"></span>% to 4–13%. Fleets of one method trained apart also mix with little loss: with half the cars
+      from each, arrival moves by −4.5 to +2.7 points (four methods, four scenes).</p>
+  </div>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="priority">
+  <div class="col prose">
+    <h2><span class="label y">Section 5.2</span>Who goes first barely moves</h2>
+    <p class="lead">First come, first served is in the graduate before any traffic. The right-hand rule never shows up.</p>
+    <p>Each arrow runs from the graduate's share to a trained method's. For every rule except first come, first served, 50% means the rule plays no role.</p>
+  </div>
+  <figure>
+    <div class="chart" id="ch-rules"></div>
+    <figcaption>Share of complete conflict events that follow each rule, events of the 5 fleets pooled. Only the blue arrow differs from the graduate
+      after Holm correction over 40 method-by-rule cells. With 5 fleets, a fleet-level test cannot confirm a single cell, so it stays a candidate.</figcaption>
+  </figure>
+  <div class="col prose">
+    <p>The graduate learned alone, yet <span data-rule="fcfs.grad"></span>% of its events at the crossing are first come, first served. Fleets trained from
+      scratch at two scenes reach it too. Right-first shares stay at 45–51% for the four main methods. The one shift, through traffic first under MAPPO-L,
+      points the way the human rule does at unsigned T-junctions, but kinematics or the cost may explain it as well.</p>
+  </div>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="turns">
+  <div class="col prose">
+    <h2><span class="label y">Section 5.3</span>Trained cars cut the left turn</h2>
+    <p class="lead">At the apex of every left turn we measure how far the car's path lies from the centre line of the lane it should follow.</p>
+  </div>
+  <figure>
+    <div class="turnfig">
+      <svg class="sch" viewBox="0 0 200 200" role="img" aria-label="Sketch of a left turn: the lane arc and a path cutting inside it at the apex">
+        <rect x="96" y="0" width="34" height="200" fill="var(--bg3)"/><rect x="0" y="40" width="130" height="34" fill="var(--bg3)"/>
+        <path d="M113 200 V122 A65 65 0 0 0 48 57 H0" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 5"/>
+        <path d="M113 200 V128 C113 96 96 72 48 64 H0" fill="none" stroke="var(--accent)" stroke-width="3"/>
+        <circle cx="94" cy="103" r="4" fill="var(--muted)"/><circle cx="100.5" cy="93" r="5" fill="var(--accent)"/>
+        <text x="136" y="128" fill="var(--muted)" font-size="12" font-family="IBM Plex Mono, Menlo, monospace">lane arc</text>
+        <text x="136" y="98" fill="var(--accent)" font-size="12" font-family="IBM Plex Mono, Menlo, monospace">path</text>
+        <text x="136" y="112" fill="var(--accent)" font-size="11" font-family="IBM Plex Mono, Menlo, monospace">apex</text>
+      </svg>
+      <div><div class="key" id="key-arc"></div><div class="chart" id="ch-arcs"></div></div>
+    </div>
+    <figcaption>Left-turn apex offset from the lane arc in metres, fleet mean and fleet bootstrap 95% interval; negative is inside the turn. Asterisk:
+      the 95% interval of the difference to the graduate excludes zero. The sketch is schematic.</figcaption>
+  </figure>
+  <div class="col prose">
+    <p>Pooling the trained methods, the apex lies inside the arc at all four junction scenes, while the graduate's interval includes zero at each. The
+      difference to the graduate is clear at the diamond and in the street grid. The cut is a small fraction of a lane width, and the reward, which pays
+      progress at speed, may explain it as well as kinematics.</p>
+  </div>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="budgets">
+  <div class="col prose">
+    <h2><span class="label y">Section 5.4</span>Shared networks keep moving. Budgeted independent cars stand still.</h2>
+    <p class="lead">The shared networks without reward mixing arrive most often. A per-step safety budget on independent cars is met by not moving.</p>
+    <p>Trained on no more data than one independent network gets, Shared PPO and MAPPO-L still arrive in 79% of test trips, against 70% for Direct
+      PPO (seeds 1–3). A car that stands accrues almost no cost, and the cost does not charge timeouts.</p>
+  </div>
+  <figure>
+    <div class="key" id="key-out"></div>
+    <div class="chart" id="ch-out"></div>
+    <figcaption>How test trips end, mean of the seven scenes at the training volume, 5 fleets per method. The large number is the share that arrives.
+      Stuck: 30 s below 0.5 m/s, or 100 s on a trip.</figcaption>
+  </figure>
+  <div class="stat col"><span class="num"><span data-fz="frozen"></span><small>/<span data-fz="runs"></span></small></span>
+    <p>runs of independent cars with a budget froze: their training timeout rate reached 20% in a 1M-step bin. <span data-fz="frozen_met"></span> of the
+      <span data-fz="met"></span> runs that met the budget had frozen.</p></div>
+  <div class="col prose">
+    <p>A shared network under the same 1/2 budget, with or without a central critic, freezes in none of its runs. A central critic on independent cars
+      does not prevent it: they still freeze in 14 of 21 runs.</p>
+  </div>
+</section>
+
+<div class="lane wide" aria-hidden="true"></div>
+
+<section class="wide" id="city">
+  <div class="col prose">
+    <h2><span class="label y">Sections 5.4 and 5.5</span>More cars, same order</h2>
+    <p class="lead">No fleet trained above its training volume. We tested every one from a single car up to the densest traffic each map holds.</p>
+    <p>All methods lose arrivals as cars are added, and the ordering of the methods holds. Hover a line to pick out one method.</p>
+  </div>
+  <figure>
+    <div class="chart" id="ch-den"></div>
+    <figcaption>Arrival against the number of cars, mean over fleets; unit scenes are the mean of six. The full city has 5 fleets for Shared PPO and the
+      graduate and 3 for Direct PPO and MAPPO-L. Shared PPO beats Direct PPO in <span data-do="shared>none"></span> scene-and-volume cells and the graduate in
+      <span data-do="shared>grad"></span>.</figcaption>
+  </figure>
+  <figure>
+    <div class="frame" style="background-image:url(media/r_city.webp)"><video data-src="media/r_city.mp4" poster="media/r_city.webp" muted loop playsinline preload="none" aria-label="Following one car through the full city"></video>
+      <span class="chip bl" style="--c:var(--shared)"><span class="dot"></span>Shared PPO · full city · training episode</span></div>
+    <figcaption><b>The full city: 24 cars, 40 junctions, lights off.</b> The camera follows one car of a Shared PPO fleet near the end of its 120M
+      agent-steps. Training episodes keep exploration noise, so this is not a test. In tests at 24 cars the method arrives in
+      <span data-den="shared.city.24"></span>% of trips, its graduate in <span data-den="grad.city.24"></span>% and same-code Direct PPO in
+      <span data-den="none.city.24"></span>%.</figcaption>
+  </figure>
+</section>
+
+
+<footer class="band">
+  <p>Companion page for an anonymous submission to ICAART 2027. The code, trained policies, test tables and analysis scripts will be released after review.</p>
+  <p>Clips: recorded positions and headings of every car, one sample per 0.2 s, interpolated and drawn in a WebGL viewer of the simulator's maps. The
+    sensor view rebuilds each car's lidar and neighbour inputs from those positions with the agents' own sensor model. Type: Archivo and IBM Plex Mono, SIL Open Font License.</p>
+</footer>
+
+<script id="data" type="application/json">{"outcomes":[{"m":"grad","name":"School graduate","arrive":56.81,"crash":30.09,"stuck":0.14,"other":12.95,"ratio":1.35},{"m":"mappol","name":"MAPPO-L","arrive":90.58,"crash":8.58,"stuck":0.02,"other":0.82,"ratio":0.29},{"m":"shared","name":"Shared PPO","arrive":87.1,"crash":12.61,"stuck":0.0,"other":0.29,"ratio":0.4},{"m":"mappo","name":"MAPPO","arrive":87.08,"crash":12.3,"stuck":0.01,"other":0.61,"ratio":0.4},{"m":"none","name":"Direct PPO","arrive":70.51,"crash":24.88,"stuck":0.41,"other":4.19,"ratio":1.0},{"m":"lam1","name":"Fixed penalty 1","arrive":69.25,"crash":22.79,"stuck":1.32,"other":6.64,"ratio":0.9},{"m":"lam4","name":"Fixed penalty 4","arrive":54.36,"crash":21.29,"stuck":8.64,"other":15.71,"ratio":1.03},{"m":"coord45","name":"CoPO-style","arrive":47.41,"crash":16.69,"stuck":34.03,"other":1.88,"ratio":0.55},{"m":"d0.00158","name":"PPO-Lag 1/2","arrive":34.7,"crash":18.01,"stuck":30.13,"other":17.16,"ratio":1.19},{"m":"d0.00079","name":"PPO-Lag 1/4","arrive":20.52,"crash":12.4,"stuck":50.4,"other":16.68,"ratio":1.2},{"m":"d0.000316","name":"PPO-Lag 1/10","arrive":17.79,"crash":9.91,"stuck":60.43,"other":11.87,"ratio":1.47}],"endings":[{"m":"grad","name":"School graduate","clean":31.79,"near_miss":20.9,"collision":16.07,"standoff":0.0,"left":31.24},{"m":"none","name":"Direct PPO","clean":39.74,"near_miss":19.31,"collision":13.0,"standoff":0.0,"left":27.94},{"m":"lam1","name":"Fixed penalty 1","clean":41.83,"near_miss":17.91,"collision":10.25,"standoff":0.78,"left":29.23},{"m":"shared","name":"Shared PPO","clean":44.91,"near_miss":27.44,"collision":10.55,"standoff":0.0,"left":17.1},{"m":"mappo","name":"MAPPO","clean":47.54,"near_miss":25.9,"collision":8.41,"standoff":0.0,"left":18.15},{"m":"mappol","name":"MAPPO-L","clean":53.45,"near_miss":24.37,"collision":7.06,"standoff":0.0,"left":15.12},{"m":"coord45","name":"CoPO-style","clean":49.36,"near_miss":23.05,"collision":9.82,"standoff":0.0,"left":17.78},{"m":"d0.00158","name":"PPO-Lag 1/2","clean":36.65,"near_miss":4.59,"collision":4.43,"standoff":6.18,"left":48.15}],"gaps":[{"m":"grad","name":"School graduate","events":134,"pet":2.2},{"m":"none","name":"Direct PPO","events":125,"pet":2.7},{"m":"shared","name":"Shared PPO","events":147,"pet":2.5},{"m":"mappol","name":"MAPPO-L","events":122,"pet":3.3},{"m":"d0.00158","name":"PPO-Lag 1/2","events":62,"pet":14.4}],"rules":[{"rule":"fcfs","label":"First come, first served","scene":"crossing","rows":[{"m":"grad","name":"School graduate","share":97.0,"n":298},{"m":"none","name":"Direct PPO","share":96.5,"n":259},{"m":"shared","name":"Shared PPO","share":97.1,"n":311},{"m":"mappo","name":"MAPPO","share":96.4,"n":337},{"m":"mappol","name":"MAPPO-L","share":97.4,"n":387}]},{"rule":"right","label":"Right first","scene":"crossing","rows":[{"m":"grad","name":"School graduate","share":52.0,"n":221},{"m":"none","name":"Direct PPO","share":45.3,"n":181},{"m":"shared","name":"Shared PPO","share":49.6,"n":232},{"m":"mappo","name":"MAPPO","share":46.8,"n":250},{"m":"mappol","name":"MAPPO-L","share":51.1,"n":280}]},{"rule":"ring","label":"Ring first","scene":"roundabout","rows":[{"m":"grad","name":"School graduate","share":59.5,"n":173},{"m":"none","name":"Direct PPO","share":61.6,"n":172},{"m":"shared","name":"Shared PPO","share":62.4,"n":157},{"m":"mappo","name":"MAPPO","share":65.8,"n":158},{"m":"mappol","name":"MAPPO-L","share":58.0,"n":157}]},{"rule":"str","label":"Through first","scene":"T-junction","rows":[{"m":"grad","name":"School graduate","share":54.4,"n":125},{"m":"none","name":"Direct PPO","share":55.1,"n":176},{"m":"shared","name":"Shared PPO","share":58.7,"n":155},{"m":"mappo","name":"MAPPO","share":50.8,"n":191},{"m":"mappol","name":"MAPPO-L","share":72.7,"n":216}]},{"rule":"main","label":"Mainline first","scene":"on-ramp","rows":[{"m":"grad","name":"School graduate","share":82.8,"n":29},{"m":"none","name":"Direct PPO","share":68.3,"n":60},{"m":"shared","name":"Shared PPO","share":84.3,"n":51},{"m":"mappo","name":"MAPPO","share":86.7,"n":113},{"m":"mappol","name":"MAPPO-L","share":91.4,"n":70}]}],"arcs":[{"scene":"T-junction","grad":-0.19,"grad_lo":-0.5,"grad_hi":0.19,"trained":-0.19,"lo":-0.31,"hi":-0.08,"diff_excludes_0":false},{"scene":"Crossing","grad":-0.14,"grad_lo":-0.44,"grad_hi":0.15,"trained":-0.28,"lo":-0.39,"hi":-0.17,"diff_excludes_0":false},{"scene":"Diamond","grad":-0.03,"grad_lo":-0.26,"grad_hi":0.34,"trained":-0.38,"lo":-0.53,"hi":-0.23,"diff_excludes_0":true},{"scene":"Street grid","grad":-0.0,"grad_lo":-0.24,"grad_hi":0.27,"trained":-0.3,"lo":-0.45,"hi":-0.15,"diff_excludes_0":true}],"density":{"grad":{"name":"School graduate","unit":[[1,90.2],[2,80.8],[4,71.1],[8,55.2],[12,42.0]],"grid":[[1,91.7],[8,82.8],[16,66.5],[24,55.6],[32,48.8],[48,34.3],[64,25.2],[96,13.5]],"city":[[1,91.1],[8,88.8],[16,83.5],[24,80.3],[32,74.0],[48,68.2],[64,61.8],[96,50.9],[100,49.3],[128,40.9]]},"none":{"name":"Direct PPO","unit":[[1,98.1],[2,93.2],[4,86.0],[8,72.7],[12,62.3]],"grid":[[1,86.3],[8,69.4],[16,57.2],[24,47.7],[32,42.5],[48,28.7],[64,19.6],[96,10.3]],"city":[[1,82.9],[8,66.7],[16,64.7],[24,59.9],[32,54.2],[48,50.3],[64,44.7],[96,33.3],[100,32.6],[128,26.7]]},"d0.00158":{"name":"PPO-Lag 1/2","unit":[[1,63.1],[2,53.7],[4,47.9],[8,38.5],[12,31.7]],"grid":[[1,25.9],[8,14.5],[16,11.7],[24,11.0],[32,8.1],[48,5.5],[64,4.2],[96,2.3]],"city":[]},"shared":{"name":"Shared PPO","unit":[[1,100.0],[2,97.0],[4,93.6],[8,86.9],[12,79.7]],"grid":[[1,100.0],[8,93.9],[16,88.3],[24,82.3],[32,77.1],[48,65.5],[64,54.6],[96,38.8]],"city":[[1,98.8],[8,97.9],[16,95.9],[24,94.9],[32,92.7],[48,89.4],[64,83.5],[96,74.2],[100,74.5],[128,65.3]]},"mappo":{"name":"MAPPO","unit":[[1,99.3],[2,97.1],[4,93.8],[8,86.9],[12,77.4]],"grid":[[1,100.0],[8,95.4],[16,88.3],[24,83.2],[32,76.1],[48,64.1],[64,51.4],[96,37.0]],"city":[]},"mappol":{"name":"MAPPO-L","unit":[[1,100.0],[2,98.0],[4,94.6],[8,90.3],[12,81.2]],"grid":[[1,99.8],[8,96.5],[16,92.3],[24,81.1],[32,78.0],[48,64.7],[64,51.9],[96,36.3]],"city":[[1,83.1],[8,81.3],[16,77.8],[24,81.2],[32,78.1],[48,71.6],[64,67.0],[96,57.2],[100,57.6],[128,49.1]]}},"density_order":{"lag_lowest":[40,46],"shared>grad":[54,56],"shared>none":[56,56]},"freeze":{"runs":105,"frozen":78,"met":44,"frozen_met":43}}</script>
+<script>
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+const COL = { grad: "var(--grad)", none: "var(--none)", lam1: "var(--pen)", lam4: "var(--pen)", "d0.00158": "var(--lag)", "d0.00079": "var(--lag)",
+  "d0.000316": "var(--lag)", shared: "var(--shared)", mappo: "var(--mappo)", mappol: "var(--mappol)", coord45: "var(--coord45)" };
+const FILL = { lam4: "none", "d0.00079": "half", "d0.000316": "none" };
+const SHARED = ["shared", "mappo", "mappol", "coord45"];
+const r0 = v => Math.round(v), fmt1 = v => v.toFixed(1);
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches, canHover = matchMedia("(hover: hover)").matches;
+
+// numbers in the prose, filled from the data block
+const gap = Object.fromEntries(D.gaps.map(g => [g.m, g.pet]));
+$$("[data-gap]").forEach(e => e.textContent = fmt1(gap[e.dataset.gap]));
+const ends = Object.fromEntries(D.endings.map(e => [e.m, e]));
+$$("[data-end]").forEach(e => { const [m, k] = e.dataset.end.split("."); e.textContent = r0(ends[m][k]); });
+$$("[data-rule]").forEach(e => { const [r, m] = e.dataset.rule.split("."); e.textContent = fmt1(D.rules.find(x => x.rule === r).rows.find(x => x.m === m).share); });
+$$("[data-fz]").forEach(e => e.textContent = D.freeze[e.dataset.fz]);
+$$("[data-do]").forEach(e => e.textContent = D.density_order[e.dataset.do].join(" of "));
+$$("[data-do1]").forEach(e => { const [k, n] = D.density_order[e.dataset.do1]; e.innerHTML = `${k}<small> of ${n}</small>`; });
+$$("[data-den]").forEach(e => { const [m, sc, n] = e.dataset.den.split("."); e.textContent = r0(D.density[m][sc].find(p => p[0] === +n)[1]); });
+
+// ---------------------------------------------------------------- video: play only what the reader is looking at
+const H264 = document.createElement("video").canPlayType('video/mp4; codecs="avc1.640028"') !== "";
+const small = innerWidth <= 640;  // phones get the 640 px copies
+const pick = u => (small ? u.replace(/\.mp4$/, "-s.mp4") : u).replace(/\.mp4$/, H264 ? ".mp4" : ".webm");
+const load = v => { if (!v.getAttribute("src") && v.dataset.src) { v.preload = "auto"; v.src = pick(v.dataset.src); } };
+const play = v => { load(v); if (!reduced) v.play().then(() => v.closest(".tile")?.classList.add("playing")).catch(() => {}); };
+const stop = v => { v.pause(); v.closest(".tile")?.classList.remove("playing"); };
+const io = new IntersectionObserver(es => es.forEach(({ target: v, intersectionRatio: r }) => {
+  const tile = v.closest(".tile");
+  if (r < 0.15) return stop(v);
+  if (tile && canHover) return load(v);   // desktop tiles wait for the pointer, so six clips never move at once
+  if (r >= (tile ? 0.6 : 0.3)) play(v); else if (tile) stop(v);
+}), { threshold: [0, 0.15, 0.3, 0.6, 1] });
+$$("video").forEach(v => { if (reduced) v.controls = true; io.observe(v); });
+$$(".tile").forEach(t => { const v = $("video", t);
+  t.addEventListener("pointerenter", () => canHover && play(v)); t.addEventListener("pointerleave", () => canHover && stop(v));
+  t.addEventListener("click", () => v.paused ? play(v) : stop(v)); });
+document.addEventListener("visibilitychange", () => { if (document.hidden) $$("video").forEach(v => v.pause()); });
+
+// sensor view: four lenses, rendered or sensor; switching keeps the playback time
+const LENS = {
+  cross: ["Lidar at the crossing. 72 beams fan out to 50 m around the followed car. A beam stops where it meets another car and the hit glows; cars hidden behind others stay dark.", "MAPPO-L · crossing", "var(--mappol)"],
+  round: ["Neighbours at the roundabout. The 4 nearest cars this car hears about are ringed and linked to it, with when each reaches its next junction and which way it turns. The fine ring is the junction this car is heading for.", "MAPPO-L · roundabout", "var(--mappol)"],
+  t: ["Risk at the T-junction. Where the followed car and the cars it tracks are heading in the next moments. The glow warms where their paths come close.", "MAPPO-L · T-junction", "var(--mappol)"],
+  city: ["Lidar in the full city, following a Shared PPO car in a training episode.", "Shared PPO · full city", "var(--shared)"]
+};
+let lens = "cross", view = "s";
+const sv = $("#sense"), note = $("#lens-note"), chip = $("#sense-chip"), sframe = $("#sense-frame");
+function setSense() {
+  const t = sv.currentTime || 0, stem = (view === "s" ? "s_" : "r_") + lens, [txt, who, c] = LENS[lens];
+  $$("[data-lens]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lens === lens)));
+  $$("[data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === view)));
+  note.textContent = view === "s" ? txt : "The same moment in the rendered view. Switch back to see what this car receives.";
+  chip.innerHTML = `<span class="dot"></span>${who} · ${view === "s" ? "sensor view" : "rendered"}`; chip.style.setProperty("--c", c);
+  sv.poster = `media/${stem}.webp`; sframe.style.backgroundImage = `url(media/${stem}.webp)`; sv.dataset.src = `media/${stem}.mp4`;
+  if (sv.getAttribute("src")) {
+    sv.preload = "auto"; sv.src = pick(sv.dataset.src); sv.load();
+    sv.addEventListener("loadedmetadata", () => { sv.currentTime = Math.min(t, sv.duration || t); if (!reduced) sv.play().catch(() => {}); }, { once: true });
+  }
+}
+$$("[data-lens]").forEach(b => b.onclick = () => { if (lens !== b.dataset.lens) { lens = b.dataset.lens; sv.currentTime = 0; setSense(); } });
+$$("[data-view]").forEach(b => b.onclick = () => { view = b.dataset.view; setSense(); });
+setSense();
+
+// ---------------------------------------------------------------- charts (SVG at the container width; hover for values)
+const tip = Object.assign(document.createElement("div"), { className: "tip", hidden: true }); document.body.appendChild(tip);
+function hover(el, onRow) {
+  el.addEventListener("pointermove", e => { const t = e.target.closest("[data-tip]"); tip.hidden = !t; if (onRow) onRow(t ? t.closest("[data-row]")?.dataset.row : null);
+    if (!t) return; tip.textContent = t.dataset.tip; const x = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8); tip.style.left = x + "px"; tip.style.top = e.clientY + 16 + "px"; });
+  el.addEventListener("pointerleave", () => { tip.hidden = true; if (onRow) onRow(null); });
+}
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+function key(id, items) { $(id).innerHTML = items.map(([n, c, cls]) => `<span class="${cls || ""}" style="--c:${c}">${n}</span>`).join(""); }
+const charts = [];
+function chart(id, draw, onRow) { const el = $(id); hover(el, onRow && (r => onRow(el, r))); const go = () => { const w = el.clientWidth; if (w) el.innerHTML = draw(w); }; charts.push(go); go(); }
+let lastW = 0; new ResizeObserver(() => { if (document.body.clientWidth !== lastW) { lastW = document.body.clientWidth; charts.forEach(f => f()); } }).observe(document.body);
+function mark(m, x, y, r = 5.5) { // the paper's marks: circle for shared networks and the graduate, square for independent; hollow or half for budget level
+  const c = COL[m], f = FILL[m], circle = SHARED.includes(m) || m === "grad";
+  const fill = f === "none" ? "var(--bg)" : f === "half" ? `url(#half-${m})` : c;
+  const defs = f === "half" ? `<defs><linearGradient id="half-${m}" x1="0" y1="0" x2="1" y2="1"><stop offset="0.5" stop-color="${c}"/><stop offset="0.5" stop-color="var(--bg)"/></linearGradient></defs>` : "";
+  return defs + (circle ? `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${c}" stroke-width="2"/>` : `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" rx="1.5" fill="${fill}" stroke="${c}" stroke-width="2"/>`);
+}
+const rowDim = (el, r) => $$("[data-row]", el).forEach(g => g.classList.toggle("dim", !!r && g.dataset.row !== r));
+
+// how conflicts end: clean and contact shares, each against the graduate's line
+const ENDS = ["clean", "near_miss", "collision", "standoff", "left"], ENDN = { clean: "clean", near_miss: "near miss", collision: "contact", standoff: "standoff", left: "one car left" };
+chart("#ch-end", w => {
+  const rows = D.endings.filter(r => r.m !== "grad"), g = ends.grad, narrow = w < 620, lw = narrow ? 112 : 150, rh = 30, top = 70;
+  const P = [["clean", "Clean endings", "higher is better", 0, 60, 20], ["collision", "Contact", "lower is better", 0, 20, 5]];
+  const pw = narrow ? w - lw : (w - lw - 44) / 2, block = top + rows.length * rh + 22, H = narrow ? 2 * block + 20 : block;
+  let s = `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="Clean and contact shares of conflicts by method, against the graduate">`;
+  P.forEach(([k, title, hint, lo, hi, step], pi) => {
+    const ox = lw + (narrow ? 0 : pi * (pw + 44)), oy = narrow ? pi * (block + 20) : 0, sx = v => ox + (v - lo) / (hi - lo) * (pw - 16);
+    s += `<text class="h" x="${ox}" y="${oy + 14}" style="fill:var(--ink)">${title}</text><text class="m" x="${ox}" y="${oy + 31}">${hint}</text>`;
+    for (let t = lo; t <= hi; t += step) s += `<line class="gridl" x1="${sx(t)}" x2="${sx(t)}" y1="${oy + top - 12}" y2="${oy + top + rows.length * rh - 10}"/><text class="m" x="${sx(t)}" y="${oy + top + rows.length * rh + 8}" text-anchor="middle">${t}%</text>`;
+    s += `<line x1="${sx(g[k])}" x2="${sx(g[k])}" y1="${oy + top - 18}" y2="${oy + top + rows.length * rh - 10}" stroke="var(--ink)" stroke-width="2"/>`;
+    s += `<text x="${sx(g[k])}" y="${oy + top - 24}" text-anchor="middle" class="b">graduate ${r0(g[k])}%</text>`;
+    rows.forEach((r, i) => {
+      const y = oy + top + i * rh + 4, x0 = sx(g[k]), x1 = sx(r[k]), better = k === "clean" ? r[k] > g[k] : r[k] < g[k], lab = pi === 0 || narrow;
+      const t = `${r.name}: ` + ENDS.map(e => `${ENDN[e]} ${r0(r[e])}%`).join(", ");
+      s += `<g data-row="${r.m}" data-tip="${esc(t)}"><rect x="${lab ? 0 : ox - 30}" y="${y - rh / 2}" width="${lab ? ox + pw : pw + 30}" height="${rh}" fill="transparent"/>`;
+      if (lab) s += `<text x="${lw - 16}" y="${y + 4.5}" text-anchor="end" class="b">${esc(r.name)}</text>`;
+      s += `<line x1="${x0}" x2="${x1}" y1="${y}" y2="${y}" stroke="${COL[r.m]}" stroke-width="3.5" stroke-linecap="round" opacity="${better ? 0.95 : 0.35}"/>${mark(r.m, x1, y)}`;
+      s += `<text x="${x1 + (r[k] >= g[k] ? 12 : -12)}" y="${y + 4.5}" text-anchor="${r[k] >= g[k] ? "start" : "end"}" class="b">${r0(r[k])}</text></g>`;
+    });
+  });
+  return s + "</svg>";
+}, rowDim);
+
+// right of way: one small panel per rule, arrow from the graduate to each method
+chart("#ch-rules", w => {
+  const n = D.rules.length, cols = w < 560 ? 1 : w < 1000 ? 2 : 3, pw = (w - (cols - 1) * 44) / cols, rows = Math.ceil(n / cols);
+  const ph = 168, H = rows * (ph + 30);
+  let s = `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="Right-of-way shares against the graduate">`;
+  D.rules.forEach((R, i) => {
+    const ox = (i % cols) * (pw + 44), oy = Math.floor(i / cols) * (ph + 30), lw = 98;
+    const vals = R.rows.map(r => r.share), lo = Math.floor((Math.min(...vals, R.rule === "fcfs" ? 100 : 50) - 3) / 5) * 5, hi = Math.min(100, Math.ceil((Math.max(...vals, R.rule === "fcfs" ? 90 : 50) + 3) / 5) * 5);
+    const sx = v => ox + lw + (v - lo) / (hi - lo) * (pw - lw - 26), g = R.rows[0];
+    s += `<text x="${ox}" y="${oy + 15}" class="h" style="fill:var(--ink)">${R.label}</text><text x="${ox}" y="${oy + 32}" class="m">${R.scene}</text>`;
+    s += `<rect x="${ox + lw - 6}" y="${oy + 50}" width="${pw - lw - 14}" height="${ph - 72}" fill="var(--bg2)" rx="3"/>`;
+    if (R.rule !== "fcfs") s += `<line x1="${sx(50)}" x2="${sx(50)}" y1="${oy + 50}" y2="${oy + ph - 22}" stroke="var(--muted)" stroke-dasharray="1 4" stroke-width="1.6"/>`;
+    s += `<line x1="${sx(g.share)}" x2="${sx(g.share)}" y1="${oy + 46}" y2="${oy + ph - 22}" stroke="var(--ink)" stroke-width="2"/>`;
+    s += `<text class="m" x="${sx(g.share)}" y="${oy + 42}" text-anchor="middle" font-size="11">graduate ${r0(g.share)}%</text>`;
+    R.rows.slice(1).forEach((r, j) => {
+      const y = oy + 66 + j * 21, hl = R.rule === "str" && r.m === "mappol", c = hl ? "var(--mappol)" : "var(--faint)", x1 = sx(g.share), x2 = sx(r.share), d = x2 > x1 ? 1 : -1;
+      s += `<text x="${ox}" y="${y + 4}" class="${hl ? "b" : "m"}"${hl ? ' style="fill:var(--ink)"' : ""}>${r.name}</text>`;
+      s += `<g data-tip="${R.label}, ${R.scene}: ${r.name} ${fmt1(r.share)}% (n = ${r.n}) against the graduate's ${fmt1(g.share)}% (n = ${g.n})">`
+        + `<rect x="${Math.min(x1, x2) - 4}" y="${y - 8}" width="${Math.abs(x2 - x1) + 8}" height="16" fill="transparent"/>`
+        + `<line x1="${x1}" x2="${x2 - d * 6}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="${hl ? 3.2 : 1.8}"/>`
+        + (Math.abs(x2 - x1) > 4 ? `<path d="M${x2} ${y} l${-d * 8} -5 v10 z" fill="${c}"/>` : `<circle cx="${x2}" cy="${y}" r="3.5" fill="${c}"/>`)
+        + (hl ? `<text x="${x2 + 8}" y="${y + 4.5}" class="b" style="fill:var(--mappol)">${fmt1(r.share)}%</text>` : "") + "</g>";
+    });
+    for (const t of [lo, hi]) s += `<text class="m" x="${sx(t)}" y="${oy + ph - 4}" text-anchor="${t === lo ? "start" : "end"}">${t}%</text>`;
+  });
+  return s + "</svg>";
+});
+
+// left-turn apex offsets
+key("#key-arc", [["school graduate", "var(--grad)"], ["all trained fleets", "var(--accent)"]]);
+chart("#ch-arcs", w => {
+  const narrow = w < 520, lw = narrow ? 34 : 104, top = 6, rh = narrow ? 64 : 52, H = top + D.arcs.length * rh + 36, lo = -0.6, hi = 0.4, sx = v => lw + (v - lo) / (hi - lo) * (w - lw - 12);
+  let s = `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="Left-turn apex offsets">`;
+  s += `<rect x="${sx(lo)}" y="${top}" width="${sx(0) - sx(lo)}" height="${H - 40}" fill="var(--bg2)"/>`;
+  for (const t of [-0.6, -0.4, -0.2, 0, 0.2, 0.4]) s += `<line class="gridl" x1="${sx(t)}" x2="${sx(t)}" y1="${top}" y2="${H - 34}"${t === 0 ? ' style="stroke:var(--muted);stroke-width:1.5"' : ""}/><text class="m" x="${sx(t)}" y="${H - 18}" text-anchor="middle">${t.toFixed(1)}</text>`;
+  s += `<text class="m" x="${sx(lo)}" y="${H - 1}">inside the turn</text><text class="m" x="${sx(hi)}" y="${H - 1}" text-anchor="end">outside</text>`;
+  D.arcs.forEach((a, i) => {
+    const y = top + i * rh + (narrow ? 28 : 16);
+    s += narrow ? `<text x="${lw}" y="${y - 12}" class="b">${a.scene}${a.diff_excludes_0 ? " *" : ""}</text>` : `<text x="0" y="${y + 11}" class="b">${a.scene}${a.diff_excludes_0 ? " *" : ""}</text>`;
+    for (const [k, l, h, c, dy, nm] of [["grad", "grad_lo", "grad_hi", "var(--grad)", 0, "graduate"], ["trained", "lo", "hi", "var(--accent)", 16, "all trained"]]) {
+      s += `<g data-tip="${a.scene}, ${nm}: ${a[k].toFixed(2)} m [${a[l].toFixed(2)}, ${a[h].toFixed(2)}]"><rect x="${sx(a[l]) - 4}" y="${y + dy - 7}" width="${sx(a[h]) - sx(a[l]) + 8}" height="14" fill="transparent"/>`
+        + `<line x1="${sx(a[l])}" x2="${sx(a[h])}" y1="${y + dy}" y2="${y + dy}" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><circle cx="${sx(a[k])}" cy="${y + dy}" r="5.5" fill="${c}" stroke="var(--bg)" stroke-width="2.5"/></g>`;
+    }
+    s += narrow ? `<text x="${sx(a.hi) + 8}" y="${y + 20.5}" class="b">${a.trained.toFixed(2)}</text>` : `<text x="${sx(a.lo) - 9}" y="${y + 20.5}" text-anchor="end" class="b" style="fill:var(--accent)">${a.trained.toFixed(2)}</text>`;
+  });
+  return s + "</svg>";
+});
+
+// how trips end: arrive in the method colour, stuck hatched, the rest quiet
+key("#key-out", [["arrive (method colour)", "var(--ink)"], ["crash", "var(--crash)"], ["off road or off route", "var(--other)"], ["stuck", "var(--ink)", "hatch"]]);
+chart("#ch-out", w => {
+  const narrow = w < 620, lw = narrow ? 0 : 150, num = 52, rh = narrow ? 56 : 34, top = 4, x0 = lw + num, x1 = w - 4, sx = v => x0 + v / 100 * (x1 - x0), H = top + D.outcomes.length * rh + 24;
+  let s = `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="How test trips end, by method"><defs><pattern id="hz" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--bg)"/><rect width="2.6" height="6" fill="var(--ink)"/></pattern></defs>`;
+  for (const t of [0, 25, 50, 75, 100]) s += `<line class="gridl" x1="${sx(t)}" x2="${sx(t)}" y1="${top}" y2="${H - 20}"/><text class="m" x="${sx(t)}" y="${H - 4}" text-anchor="${t === 0 ? "start" : t === 100 ? "end" : "middle"}">${t}%</text>`;
+  D.outcomes.forEach((r, i) => {
+    const y = top + i * rh + (narrow ? 26 : 8), bh = 18, ly = narrow ? y - 9 : y + 13.5, isG = r.m === "grad";
+    s += `<g data-row="${r.m}" data-tip="${esc(r.name)}: arrive ${fmt1(r.arrive)}%, crash ${fmt1(r.crash)}%, off road or route ${fmt1(r.other)}%, stuck ${fmt1(r.stuck)}%">`;
+    s += `<rect x="0" y="${y - (narrow ? 26 : 8)}" width="${w}" height="${rh}" fill="transparent"/>`;
+    s += narrow ? `<text x="${x0}" y="${ly}" class="b">${esc(r.name)}</text>` : `<text x="${lw - 14}" y="${ly}" text-anchor="end" class="b"${isG ? ' style="fill:var(--muted)"' : ""}>${esc(r.name)}</text>`;
+    s += `<text x="${x0 - 9}" y="${y + bh - 1}" text-anchor="end" class="big" style="fill:${COL[r.m]}">${r0(r.arrive)}</text>`;
+    let acc = 0;
+    for (const [k, f] of [["arrive", COL[r.m]], ["crash", "var(--crash)"], ["other", "var(--other)"], ["stuck", "url(#hz)"]]) {
+      const v = r[k]; if (v <= 0.05) { acc += v; continue; }
+      s += `<rect x="${sx(acc) + (acc > 0 ? 1.5 : 0)}" y="${y}" width="${Math.max(0.5, sx(acc + v) - sx(acc) - (acc > 0 ? 1.5 : 0))}" height="${bh}" fill="${f}"${isG && k === "arrive" ? ' opacity="0.7"' : ""}/>`;
+      acc += v;
+    }
+    if (r.stuck >= 5) s += `<text x="${sx(100) - 6}" y="${y + bh - 4.5}" text-anchor="end" class="b" style="fill:var(--bg);paint-order:stroke;stroke:var(--ink);stroke-width:5px;stroke-linejoin:round">${r0(r.stuck)}% stuck</text>`;
+    s += "</g>";
+  });
+  return s + "</svg>";
+}, rowDim);
+
+// density: three small multiples, Shared PPO, Direct PPO and the graduate in front, the others as context
+const DM = [["grad", "School graduate"], ["none", "Direct PPO"], ["d0.00158", "PPO-Lag 1/2"], ["shared", "Shared PPO"], ["mappo", "MAPPO"], ["mappol", "MAPPO-L"]];
+const FRONT = ["shared", "none", "grad"];
+chart("#ch-den", w => {
+  const P = [["unit", "Unit scenes", 8], ["grid", "Street grid", 16], ["city", "Full city", 24]], cols = w < 680 ? 1 : 3, gapx = 34;
+  const pw = (w - (cols - 1) * gapx) / cols, ph = 250, H = Math.ceil(P.length / cols) * (ph + 30);
+  let s = `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="Arrival against the number of cars">`;
+  P.forEach(([k, title, train], i) => {
+    const ox = (i % cols) * (pw + gapx), oy = Math.floor(i / cols) * (ph + 30), l = 38, t = 36, b = 30, rpad = 122;
+    const xs = [...new Set(DM.flatMap(([m]) => D.density[m][k].map(p => p[0])))].sort((a, c) => a - c), xmax = xs[xs.length - 1];
+    const sx = v => ox + l + Math.sqrt(v) / Math.sqrt(xmax) * (pw - l - rpad), sy = v => oy + t + (1 - v / 100) * (ph - t - b);
+    s += `<text x="${ox}" y="${oy + 15}" class="h" style="fill:var(--ink)">${title}</text>`;
+    for (const v of [0, 25, 50, 75, 100]) s += `<line class="gridl" x1="${ox + l}" x2="${ox + pw - rpad}" y1="${sy(v)}" y2="${sy(v)}"/>${v % 50 === 0 ? `<text class="m" x="${ox + l - 7}" y="${sy(v) + 4}" text-anchor="end">${v}%</text>` : ""}`;
+    let lastX = -1e9; for (const v of xs.filter(v => [1, 8, 16, 24, 48, 96, 128, 12].includes(v) || v === train)) { if (sx(v) - lastX < 24 && v !== train) continue; lastX = sx(v); s += `<text class="m" x="${sx(v)}" y="${oy + ph - 10}" text-anchor="middle">${v}</text>`; }
+    s += `<line x1="${sx(train)}" x2="${sx(train)}" y1="${sy(100) - 8}" y2="${sy(0)}" stroke="var(--accent)" stroke-dasharray="3 4" stroke-width="1.5"/><text x="${sx(train) + 5}" y="${sy(100) - 12}" font-size="11" style="fill:var(--accent)">training volume</text>`;
+    s += `<text class="m" x="${ox + l}" y="${oy + ph + 8}" font-size="11">number of cars →</text>`;
+    const endl = [];
+    for (const [m, nm] of DM) {
+      const pts = D.density[m][k]; if (!pts.length) continue;
+      const front = FRONT.includes(m), last = pts[pts.length - 1];
+      s += `<g data-row="${m}"${front ? "" : ' opacity="0.42"'}><polyline points="${pts.map(p => sx(p[0]) + "," + sy(p[1])).join(" ")}" fill="none" stroke="${COL[m]}" stroke-width="${front ? 3 : 1.7}" stroke-linejoin="round" stroke-linecap="round"${m === "grad" ? ' stroke-dasharray="6 4"' : ""}/>`;
+      s += pts.map(p => `<circle data-tip="${nm}, ${title}, ${p[0]} car${p[0] > 1 ? "s" : ""}: ${fmt1(p[1])}% arrive" cx="${sx(p[0])}" cy="${sy(p[1])}" r="8" fill="transparent"/>`).join("") + "</g>";
+      endl.push([m, m === "grad" ? "Graduate" : nm, sx(last[0]), sy(last[1]), front]);
+    }
+    endl.sort((a, c) => a[3] - c[3]); let prev = -1e9;  // direct labels at the line ends, pushed apart
+    for (const e of endl) { const y = Math.max(e[3] + 4, prev + 13); prev = y; s += `<text data-row="${e[0]}" x="${e[2] + 8}" y="${y}" font-size="12" style="fill:${COL[e[0]]}"${e[4] ? ' class="b"' : ' opacity="0.75"'}>${e[1]}</text>`; }
+  });
+  return s + "</svg>";
+}, rowDim);
+</script>
+</body>
+</html>
