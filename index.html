@@ -324,7 +324,7 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
   <p>One car first learns to drive alone in a driving school. We call the result the school graduate. Its policy is copied into every car
     of a fleet, and the fleet keeps learning together on one scene. The paper asks what these fleets come to agree on and how they settle each
     encounter. This page shows them doing it.</p>
-  <p>Each clip replays positions recorded in a test the paper analyses (the full city is the one exception: a training episode). We only added
+  <p>Each clip replays positions recorded in the simulator's tests (the full city is the one exception: a training episode). We only added
     the camera and the 3D models. Every number on the page comes from the paper's analysis outputs.</p>
 </section>
 
@@ -387,8 +387,7 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
   <div class="col prose">
     <h2><span class="label y">Scenes</span>Six more scenes</h2>
     <p class="lead">Each fleet trains and is tested on one scene, most of them built around one kind of conflict.</p>
-    <p>Every clip shows MAPPO-L. Of its five fleets we picked the one whose test arrival is closest to the method's mean at that scene.
-      Hover over a clip to play it. On a phone, clips play as you scroll to them.</p>
+    <p>Every clip shows MAPPO-L. Hover over a clip to play it. On a phone, clips play as you scroll to them.</p>
   </div>
   <div class="atlas">
     <figure class="tile"><div class="frame" style="background-image:url(media/tjunction.webp)"><video data-src="media/tjunction.mp4" poster="media/tjunction.webp" muted loop playsinline preload="none" aria-label="T-junction clip"></video></div>
@@ -572,7 +571,7 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
 
 <footer class="band">
   <p>Companion page for an anonymous submission to ICAART 2027. The code, trained policies, test tables and analysis scripts will be released after review.</p>
-  <p>Clips: recorded positions and headings of every car, one sample per 0.2 s, interpolated and drawn in a WebGL viewer of the simulator's maps. The
+  <p>Clips: recorded positions and headings of every car, one sample per 0.2 s, joined by a smooth curve and drawn in a WebGL viewer of the simulator's maps. The
     sensor view rebuilds each car's lidar and neighbour inputs from those positions with the agents' own sensor model. Type: Archivo and IBM Plex Mono, SIL Open Font License.</p>
 </footer>
 
