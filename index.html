@@ -299,10 +299,10 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
 <figure class="hero-media">
   <div class="bleed">
     <div class="frame" style="background-image:url(media/crossing.webp)"><video data-src="media/crossing.mp4" poster="media/crossing.webp" muted loop playsinline preload="auto" autoplay
-      aria-label="Eight cars take turns through an unsignalised four-way crossing"></video>
-      <span class="chip bl hero-chip" style="--c:var(--mappol)"><span class="dot"></span>MAPPO-L · 8 cars · recorded test · real time</span></div>
+      aria-label="A continuous stream of cars from all four arms negotiates an unsignalised crossing"></video>
+      <span class="chip bl hero-chip" style="--c:var(--mappol)"><span class="dot"></span>MAPPO-L · 16 cars · continuous traffic · real time</span></div>
   </div>
-  <figcaption class="hero-cap wide"><span><b>A four-way crossing with no lights, no signs and no priority rule.</b> A car that arrives starts a new trip from a random arm.</span><span>The triangles under the title are a give-way line, the road marking for the rule these cars never got.</span></figcaption>
+  <figcaption class="hero-cap wide"><span><b>A four-way crossing with no lights, no signs and no priority rule.</b> Cars keep arriving from every arm; each one that leaves is replaced by a new trip.</span><span>The triangles under the title are a give-way line, the road marking for the rule these cars never got.</span></figcaption>
 </figure>
 
 <div class="findings wide">
@@ -324,8 +324,9 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
   <p>One car first learns to drive alone in a driving school. We call the result the school graduate. Its policy is copied into every car
     of a fleet, and the fleet keeps learning together on one scene. The paper asks what these fleets come to agree on and how they settle each
     encounter. This page shows them doing it.</p>
-  <p>Each clip replays positions recorded in the simulator's tests (the full city is the one exception: a training episode). We only added
-    the camera and the 3D models. Every number on the page comes from the paper's analysis outputs.</p>
+  <p>The clips run the trained fleets, unchanged, in continuous traffic: as many cars as each scene holds, with a new trip starting the moment
+    one ends, so streams keep arriving from every direction. We only added the camera and the 3D models. Every number on the page comes from
+    the paper's analysis outputs, which use the tests at the training volume.</p>
 </section>
 
 <div class="lane wide" aria-hidden="true"></div>
@@ -387,7 +388,7 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
   <div class="col prose">
     <h2><span class="label y">Scenes</span>Six more scenes</h2>
     <p class="lead">Each fleet trains and is tested on one scene, most of them built around one kind of conflict.</p>
-    <p>Every clip shows MAPPO-L. Hover over a clip to play it. On a phone, clips play as you scroll to them.</p>
+    <p>Every clip shows MAPPO-L in continuous traffic, with 14 to 20 cars at the junctions and the on-ramp (it trained with 8). Hover over a clip to play it. On a phone, clips play as you scroll to them.</p>
   </div>
   <div class="atlas">
     <figure class="tile"><div class="frame" style="background-image:url(media/tjunction.webp)"><video data-src="media/tjunction.mp4" poster="media/tjunction.webp" muted loop playsinline preload="none" aria-label="T-junction clip"></video></div>
@@ -399,7 +400,7 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
     <figure class="tile"><div class="frame" style="background-image:url(media/diamond.webp)"><video data-src="media/diamond.mp4" poster="media/diamond.webp" muted loop playsinline preload="none" aria-label="Diamond interchange clip"></video></div>
       <h3>Diamond interchange</h3><p>A freeway on a bridge, joined to the street below by four ramps and two junctions.</p></figure>
     <figure class="tile"><div class="frame" style="background-image:url(media/grid.webp)"><video data-src="media/grid.mp4" poster="media/grid.webp" muted loop playsinline preload="none" aria-label="Street grid clip"></video></div>
-      <h3>Street grid</h3><p>9 T-junctions, 2 crossings and 1 roundabout, shared by 16 cars.</p></figure>
+      <h3>Street grid</h3><p>9 T-junctions, 2 crossings and 1 roundabout. Trained with 16 cars; shown with 40.</p></figure>
     <figure class="tile"><div class="frame" style="background-image:url(media/street.webp)"><video data-src="media/street.mp4" poster="media/street.webp" muted loop playsinline preload="none" aria-label="Straight road clip"></video></div>
       <h3>Straight road</h3><p>A 320 m street. Cars pull out of kerb parking and park at least 40 m on. Almost no conflicts, so it is the control.</p></figure>
   </div>
@@ -560,9 +561,9 @@ footer.band p:first-child { color: var(--sun); font: 700 1.1rem/1.4 var(--displa
   </figure>
   <figure>
     <div class="frame" style="background-image:url(media/r_city.webp)"><video data-src="media/r_city.mp4" poster="media/r_city.webp" muted loop playsinline preload="none" aria-label="Following one car through the full city"></video>
-      <span class="chip bl" style="--c:var(--shared)"><span class="dot"></span>Shared PPO · full city · training episode</span></div>
-    <figcaption><b>The full city: 24 cars, 40 junctions, lights off.</b> The camera follows one car of a Shared PPO fleet near the end of its 120M
-      agent-steps. Training episodes keep exploration noise, so this is not a test. In tests at 24 cars the method arrives in
+      <span class="chip bl" style="--c:var(--shared)"><span class="dot"></span>Shared PPO · full city · 64 cars</span></div>
+    <figcaption><b>The full city: 40 junctions, lights off, 64 cars.</b> The camera follows one car of a Shared PPO fleet trained for 120M agent-steps with
+      24 cars. In tests at 24 cars the method arrives in
       <span data-den="shared.city.24"></span>% of trips, its graduate in <span data-den="grad.city.24"></span>% and same-code Direct PPO in
       <span data-den="none.city.24"></span>%.</figcaption>
   </figure>
@@ -622,7 +623,7 @@ const LENS = {
   cross: ["Lidar at the crossing. 72 beams fan out to 50 m around the followed car. A beam stops where it meets another car and the hit glows; cars hidden behind others stay dark.", "MAPPO-L · crossing", "var(--mappol)"],
   round: ["Neighbours at the roundabout. The 4 nearest cars this car hears about are ringed and linked to it, with when each reaches its next junction and which way it turns. The fine ring is the junction this car is heading for.", "MAPPO-L · roundabout", "var(--mappol)"],
   t: ["Risk at the T-junction. Where the followed car and the cars it tracks are heading in the next moments. The glow warms where their paths come close.", "MAPPO-L · T-junction", "var(--mappol)"],
-  city: ["Lidar in the full city, following a Shared PPO car in a training episode.", "Shared PPO · full city", "var(--shared)"]
+  city: ["Lidar in the full city, following one car of a Shared PPO fleet among 64 cars.", "Shared PPO · full city", "var(--shared)"]
 };
 let lens = "cross", view = "s";
 const sv = $("#sense"), note = $("#lens-note"), chip = $("#sense-chip"), sframe = $("#sense-frame");
